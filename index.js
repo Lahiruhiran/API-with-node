@@ -1,15 +1,21 @@
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-
-
-mongoose.connect ('mongodb+srv://LahiruH:Lahi#1234@cluster0.emfv7.mongodb.net/<dbname>?retryWrites=true&w=majority',
-{ useNewUrlParser: true },
-() => console.log("connected to db!"))
-
-//Import rutes
+//Import routes
 const authRoute = require('./routes/auth');
 
+
+dotenv.config();
+
+//connect to DB
+mongoose.connect (
+    process.env.DB_CONNECT,
+{ useNewUrlParser: true },
+() => console.log("connected to db!"));
+
+//middleware
+app.use(express.json());
 
 //Rout midleware
 app.use('/api/user',authRoute   )
